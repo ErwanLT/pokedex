@@ -9,8 +9,8 @@ This is a web application built using Spring Boot and Vaadin. It provides a Poke
 
 
 ## Built With
-* Spring Boot - Backend framework
-* Vaadin - Web framework for building modern user interfaces
+* [Spring Boot](https://spring.io/projects/spring-boot) - Backend framework
+* [Vaadin](https://vaadin.com/) - Web framework for building modern user interfaces
 
 ## Getting Started
 To get a local copy up and running, follow these simple steps:
