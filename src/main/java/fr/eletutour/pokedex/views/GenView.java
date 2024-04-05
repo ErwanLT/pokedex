@@ -11,12 +11,11 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.router.*;
 import fr.eletutour.pokedex.views.forms.PokemonForm;
 import fr.eletutour.pokedex.models.Pokemon;
-import fr.eletutour.pokedex.models.Type;
 import fr.eletutour.pokedex.services.PokemonService;
 
 import java.util.List;
 
-@Route(value = "gen", layout = MainLayout.class)
+@Route(value = "gen", layout = MainView.class)
 @PageTitle("Pokemons by generation")
 public class GenView extends VerticalLayout {
 
@@ -65,6 +64,7 @@ public class GenView extends VerticalLayout {
     private void configureForm() {
         form = new PokemonForm();
         form.setWidth("25em");
+        form.setVisible(false);
     }
 
     private void updateList() {

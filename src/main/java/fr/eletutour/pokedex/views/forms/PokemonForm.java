@@ -29,13 +29,14 @@ public class PokemonForm extends FormLayout {
     HorizontalLayout eggsLayout = new HorizontalLayout(FlexComponent.Alignment.CENTER);
     HorizontalLayout resistanceLayout = new HorizontalLayout(FlexComponent.Alignment.CENTER);
     HorizontalLayout evolutionLayout = new HorizontalLayout(FlexComponent.Alignment.CENTER);
+    HorizontalLayout gigamaxLayout = new HorizontalLayout(FlexComponent.Alignment.CENTER);
     Binder<Pokemon> binder = new Binder<>(Pokemon.class);
 
     public PokemonForm(){
         binder.bindInstanceFields(this);
 
         add(numAndName, sprite, types, cat, tailleLayout, poidsLayout);
-        add(talentsLayout, eggsLayout, evolutionLayout);
+        add(talentsLayout, eggsLayout, evolutionLayout, gigamaxLayout);
         add(createButtonsLayout());
     }
 
@@ -60,6 +61,7 @@ public class PokemonForm extends FormLayout {
             details.configureOeufs(eggsLayout);
             details.configureResistanceLayout(resistanceLayout);
             details.configureEvolutions(evolutionLayout);
+            details.configureGigamax(gigamaxLayout);
         }
 
     }
@@ -74,6 +76,7 @@ public class PokemonForm extends FormLayout {
         eggsLayout.removeAll();
         resistanceLayout.removeAll();
         evolutionLayout.removeAll();
+        gigamaxLayout.removeAll();
     }
 
     @Getter

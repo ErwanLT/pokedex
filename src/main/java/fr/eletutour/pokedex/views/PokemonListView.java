@@ -13,10 +13,9 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import fr.eletutour.pokedex.views.forms.PokemonForm;
 import fr.eletutour.pokedex.models.Pokemon;
-import fr.eletutour.pokedex.models.Type;
 import fr.eletutour.pokedex.services.PokemonService;
 
-@Route(value = "/pokemons", layout = MainLayout.class)
+@Route(value = "/pokemons", layout = MainView.class)
 @PageTitle(value = "Pokémons")
 public class PokemonListView extends VerticalLayout {
 
@@ -49,6 +48,7 @@ public class PokemonListView extends VerticalLayout {
     private void configureForm() {
         form = new PokemonForm();
         form.setWidth("25em");
+        form.setVisible(false);
     }
 
     private void updateList() {

@@ -4,14 +4,29 @@ import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import fr.eletutour.pokedex.models.Evolution;
-import fr.eletutour.pokedex.models.EvolutionStep;
-import fr.eletutour.pokedex.models.Pokemon;
-import fr.eletutour.pokedex.models.Talent;
+import fr.eletutour.pokedex.models.*;
 import fr.eletutour.pokedex.services.PokemonService;
 import org.springframework.util.CollectionUtils;
 
+import java.util.List;
+
 public class PokemonDetails {
+
+    List<String> branchedEvolution = List.of("Ortide",
+            "Têtarte",
+            "Ramoloss",
+            "Insécateur",
+            "Évoli",
+            "Debugant",
+            "Chenipotte",
+            "Kirlia",
+            "Ningale",
+            "Stalgamin",
+            "Coquiperl",
+            "Cheniti",
+            "Cosmovum",
+            "Verpom",
+            "Charbambin");
 
     private final Pokemon pokemon;
 
@@ -134,7 +149,7 @@ public class PokemonDetails {
             VerticalLayout steps = new VerticalLayout();
             VerticalLayout mega = new VerticalLayout();
             configurePreEvolution(evolutions, steps);
-            configureNextEvolution(evolutions, steps);
+            configureNextEvolution(pokemon, steps);
             configureMegaEvolutions(evolutions, mega);
 
             evolutionLayout.add(label, steps, mega);
@@ -157,16 +172,34 @@ public class PokemonDetails {
         }
     }
 
-    private void configureNextEvolution(Evolution evolutions, VerticalLayout steps) {
+    private void configureNextEvolution(Pokemon pokemon, VerticalLayout steps) {
+        var evolutions = pokemon.getEvolution();
         if(!CollectionUtils.isEmpty(evolutions.getNext())){
-            EvolutionStep step = evolutions.getNext().get(0);
-            Pokemon next = service.findById(step.getPokedexId());
+            steps.add(new Div(new Span("Next")));
+            if(branchedEvolution.contains(pokemon.getName().getFr())){
+                evolutions.getNext().forEach(step -> {
+                    Pokemon next = service.findById(step.getPokedexId());
 
-            Image sprite = new Image(next.getSprites().getRegular(), next.getName().getFr());
-            sprite.setHeight(60, Unit.PIXELS);
-            sprite.setWidth(60, Unit.PIXELS);
+                    Image sprite = new Image(next.getSprites().getRegular(), next.getName().getFr());
+                    sprite.setHeight(60, Unit.PIXELS);
+                    sprite.setWidth(60, Unit.PIXELS);
 
-            steps.add(new Div(new Span("Next"), sprite));
+                    Span condition = new Span(step.getCondition());
+
+                    steps.add(new Div(sprite, condition));
+                });
+            } else {
+                EvolutionStep step = evolutions.getNext().get(0);
+                Pokemon next = service.findById(step.getPokedexId());
+
+                Image sprite = new Image(next.getSprites().getRegular(), next.getName().getFr());
+                sprite.setHeight(60, Unit.PIXELS);
+                sprite.setWidth(60, Unit.PIXELS);
+
+                Span condition = new Span(step.getCondition());
+
+                steps.add(new Div(sprite, condition));
+            }
         }
     }
 
@@ -180,6 +213,21 @@ public class PokemonDetails {
             sprite.setWidth(60, Unit.PIXELS);
 
             steps.add(new Div(new Span("Pré"), sprite));
+        }
+    }
+
+    public void configureGigamax(HorizontalLayout gigamaxLayout){
+        GmaxSprites gigamaxImg = pokemon.getSprites().getGmax();
+        if(gigamaxImg != null){
+            H4 label = new H4("Gigamax");
+            label.addClassName("type");
+            label.addClassName(pokemon.getTypes().get(0).getName().toLowerCase());
+
+            Image sprite = new Image(gigamaxImg.getRegular(), "gigamax form");
+            sprite.setHeight(60, Unit.PIXELS);
+            sprite.setWidth(60, Unit.PIXELS);
+
+            gigamaxLayout.add(label, sprite);
         }
     }
 }

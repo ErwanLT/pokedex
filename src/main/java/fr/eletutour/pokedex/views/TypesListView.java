@@ -11,7 +11,7 @@ import com.vaadin.flow.router.Route;
 import fr.eletutour.pokedex.models.Type;
 import fr.eletutour.pokedex.services.PokemonService;
 
-@Route(value = "types", layout = MainLayout.class)
+@Route(value = "types", layout = MainView.class)
 @PageTitle(value = "Types")
 public class TypesListView extends VerticalLayout {
 

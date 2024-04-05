@@ -9,13 +9,15 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 @CssImport("/style/pokedex.css")
-public class MainLayout extends AppLayout {
+@Route(value = "")
+public class MainView extends AppLayout {
 
-    public MainLayout() {
+    public MainView() {
         createHeader();
         createDrawer();
     }
