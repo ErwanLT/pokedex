@@ -18453,7 +18453,19 @@
         "multiplier":1
       }
     ],
-    "evolution":null,
+    "evolution":{
+      "pre":null,
+      "next":null,
+      "mega":[
+        {
+          "orbe":"Gemme Bleue",
+          "sprites":{
+            "regular":"https://www.pokepedia.fr/images/c/cb/Sprite_0382_Primo_HOME.png?20230624153320",
+            "shiny":"https://www.pokepedia.fr/images/4/4f/Sprite_0382_Primo_chromatique_HOME.png?20230624153255"
+          }
+        }
+      ]
+    },
     "height":"4,5 m",
     "weight":"352,0 kg",
     "egg_groups":null,
@@ -18570,7 +18582,19 @@
         "multiplier":1
       }
     ],
-    "evolution":null,
+    "evolution":{
+      "pre":null,
+      "next":null,
+      "mega":[
+        {
+          "orbe":"Gemme Rouge",
+          "sprites":{
+            "regular":"https://www.pokepedia.fr/images/9/9b/Sprite_0383_Primo_HOME.png?20230624153419",
+            "shiny":"https://www.pokepedia.fr/images/5/55/Sprite_0383_Primo_chromatique_HOME.png?20230624153407"
+          }
+        }
+      ]
+    },
     "height":"3,5 m",
     "weight":"950,0 kg",
     "egg_groups":null,
@@ -18691,7 +18715,19 @@
         "multiplier":2
       }
     ],
-    "evolution":null,
+    "evolution":{
+      "pre":null,
+      "next":null,
+      "mega":[
+        {
+          "orbe":"Draco-Ascension",
+          "sprites":{
+            "regular":"https://www.pokepedia.fr/images/a/a7/Sprite_0384_M%C3%A9ga_HOME.png",
+            "shiny":"https://www.pokepedia.fr/images/9/93/Sprite_0384_M%C3%A9ga_chromatique_HOME.png?20230624153512"
+          }
+        }
+      ]
+    },
     "height":"7,0 m",
     "weight":"206,5 kg",
     "egg_groups":null,

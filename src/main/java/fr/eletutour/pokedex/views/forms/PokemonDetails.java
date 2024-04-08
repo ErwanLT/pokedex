@@ -2,6 +2,7 @@ package fr.eletutour.pokedex.views.forms;
 
 import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import fr.eletutour.pokedex.models.*;
@@ -141,7 +142,7 @@ public class PokemonDetails {
 
     public void configureEvolutions(HorizontalLayout evolutionLayout) {
         Evolution evolutions = pokemon.getEvolution();
-        if(evolutions != null){
+        if(evolutions!= null && (evolutions.getNext() != null || evolutions.getPre() != null)){
             H4 label = new H4("Evolution");
             label.addClassName("type");
             label.addClassName(pokemon.getTypes().get(0).getName().toLowerCase());
@@ -150,26 +151,9 @@ public class PokemonDetails {
             VerticalLayout mega = new VerticalLayout();
             configurePreEvolution(evolutions, steps);
             configureNextEvolution(pokemon, steps);
-            configureMegaEvolutions(evolutions, mega);
-
             evolutionLayout.add(label, steps, mega);
         }
 
-    }
-
-    private void configureMegaEvolutions(Evolution evolutions, VerticalLayout steps) {
-        Div megas = new Div();
-        if(!CollectionUtils.isEmpty(evolutions.getMega())) {
-            evolutions.getMega().forEach(
-                    mega -> {
-                        Image sprite = new Image(mega.getSprites().getRegular(), mega.getOrbe());
-                        sprite.setHeight(60, Unit.PIXELS);
-                        sprite.setWidth(60, Unit.PIXELS);
-
-                        megas.add(new Div(new Span(mega.getOrbe()), sprite));
-            });
-            steps.add(megas);
-        }
     }
 
     private void configureNextEvolution(Pokemon pokemon, VerticalLayout steps) {
@@ -178,6 +162,7 @@ public class PokemonDetails {
             steps.add(new Div(new Span("Next")));
             if(branchedEvolution.contains(pokemon.getName().getFr())){
                 evolutions.getNext().forEach(step -> {
+                    HorizontalLayout evoStep = new HorizontalLayout(FlexComponent.JustifyContentMode.CENTER);
                     Pokemon next = service.findById(step.getPokedexId());
 
                     Image sprite = new Image(next.getSprites().getRegular(), next.getName().getFr());
@@ -186,11 +171,15 @@ public class PokemonDetails {
 
                     Span condition = new Span(step.getCondition());
 
-                    steps.add(new Div(sprite, condition));
+                    evoStep.add(sprite, condition);
+
+                    steps.add(evoStep);
                 });
             } else {
                 EvolutionStep step = evolutions.getNext().get(0);
                 Pokemon next = service.findById(step.getPokedexId());
+
+                HorizontalLayout evoStep = new HorizontalLayout(FlexComponent.JustifyContentMode.CENTER);
 
                 Image sprite = new Image(next.getSprites().getRegular(), next.getName().getFr());
                 sprite.setHeight(60, Unit.PIXELS);
@@ -198,7 +187,9 @@ public class PokemonDetails {
 
                 Span condition = new Span(step.getCondition());
 
-                steps.add(new Div(sprite, condition));
+                evoStep.add(sprite, condition);
+
+                steps.add(evoStep);
             }
         }
     }
@@ -224,10 +215,29 @@ public class PokemonDetails {
             label.addClassName(pokemon.getTypes().get(0).getName().toLowerCase());
 
             Image sprite = new Image(gigamaxImg.getRegular(), "gigamax form");
-            sprite.setHeight(60, Unit.PIXELS);
-            sprite.setWidth(60, Unit.PIXELS);
+            sprite.setHeight(150, Unit.PIXELS);
+            sprite.setWidth(150, Unit.PIXELS);
 
             gigamaxLayout.add(label, sprite);
+        }
+    }
+
+    public void configureMegaEvolutions(HorizontalLayout megaEvolutionLayout) {
+        var evolutions = pokemon.getEvolution();
+        if(evolutions != null && !CollectionUtils.isEmpty(evolutions.getMega())){
+            H4 label = new H4("Méga evolution");
+            label.addClassName("type");
+            label.addClassName(pokemon.getTypes().get(0).getName().toLowerCase());
+
+            var mega = evolutions.getMega().get(0);
+            Image sprite = new Image(mega.getSprites().getRegular(), mega.getOrbe());
+            sprite.setHeight(150, Unit.PIXELS);
+            sprite.setWidth(150, Unit.PIXELS);
+
+            Span orbe = new Span(mega.getOrbe());
+
+            megaEvolutionLayout.add(label, sprite, orbe);
+
         }
     }
 }
