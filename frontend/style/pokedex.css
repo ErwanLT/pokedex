@@ -1,5 +1,14 @@
+.explain {
+    text-decoration: underline dotted;
+    cursor: help;
+}
+
 .type {
     border-radius: 10px;
+}
+
+.entete {
+    max-width: 30%;
 }
 
 .plante {
