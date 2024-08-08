@@ -1,7 +1,9 @@
 package fr.eletutour.pokedex.views;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.Unit;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
@@ -11,8 +13,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import fr.eletutour.pokedex.views.forms.PokemonForm;
 import fr.eletutour.pokedex.models.Pokemon;
+import fr.eletutour.pokedex.services.NavigationService;
 import fr.eletutour.pokedex.services.PokemonService;
 
 @Route(value = "/pokemons", layout = MainView.class)
@@ -22,33 +24,24 @@ public class PokemonListView extends VerticalLayout {
     Grid<Pokemon> grid = new Grid<>(Pokemon.class);
     TextField filterText = new TextField();
 
-    PokemonForm form;
-
     PokemonService service;
+    NavigationService navigationService;
 
-    public PokemonListView(PokemonService pokemonService){
+    public PokemonListView(PokemonService pokemonService, NavigationService navigationService){
         this.service = pokemonService;
+        this.navigationService = navigationService;
         setSizeFull();
         configureGrid();
-        configureForm();
 
         add(getToolbar(), getContent());
         updateList();
     }
 
     private Component getContent() {
-        HorizontalLayout content = new HorizontalLayout(grid, form);
-        content.setFlexGrow(2, grid);
-        content.setFlexGrow(1, form);
+        HorizontalLayout content = new HorizontalLayout(grid);
         content.addClassNames("content");
         content.setSizeFull();
         return content;
-    }
-
-    private void configureForm() {
-        form = new PokemonForm();
-        form.setWidth("25em");
-        form.setVisible(false);
     }
 
     private void updateList() {
@@ -74,11 +67,16 @@ public class PokemonListView extends VerticalLayout {
                 img.setWidth(150, Unit.PIXELS);
                 return img;
             }).setHeader("Sprite");
+        grid.addComponentColumn(pokemon -> {
+            Button button = new Button("Voir Détails");
+            button.addClickListener(e -> {
+                navigationService.setSelectedPokemon(pokemon);
+                UI.getCurrent().navigate(PokemonDetailView.class);
+            });
+            return button;
+        }).setHeader("Détails");
 
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
-
-        grid.asSingleSelect().addValueChangeListener(event ->
-                viewPokemon(event.getValue()));
     }
 
     private HorizontalLayout getToolbar() {
@@ -90,21 +88,5 @@ public class PokemonListView extends VerticalLayout {
         var toolbar = new HorizontalLayout(filterText);
         toolbar.addClassName("toolbar");
         return toolbar;
-    }
-
-    public void viewPokemon(Pokemon pokemon) {
-        if (pokemon == null) {
-            closeEditor();
-        } else {
-            form.setPokemon(pokemon);
-            form.setVisible(true);
-            addClassName("editing");
-        }
-    }
-
-    private void closeEditor() {
-        form.setPokemon(null);
-        form.setVisible(false);
-        removeClassName("editing");
     }
 }
